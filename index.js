@@ -10,6 +10,8 @@ const app = express()
 const server = http.createServer(app) // Merge API & WebSockets into one server
 const PORT = process.env.PORT || 9000 // Use dynamic Render port
 
+const basePath = 'https://vercel-cloud-bucket.s3.ap-south-1.amazonaws.com/__outputs';
+
 const REDIS_URL = process.env.REDIS_URL
 const subscriber = new Redis(REDIS_URL)
 
@@ -91,10 +93,22 @@ app.post('/project', async(req, res) => {
 
 app.get('/get/:slug', (req, res) => {
     const { slug } = req.params;
-    const deployedURL = `https://${slug}.onrender.com`; // Assuming each project follows this pattern
+    const deployedURL = `${basePath}/${slug}/index.html`; // Direct path to the project
 
-    return res.redirect(deployedURL); // Redirects to the deployed project
+    // Redirect to the deployed project
+    return res.redirect(deployedURL);
 });
+
+// API that returns the project URL
+app.get('/deploy/:slug', (req, res) => {
+    const { slug } = req.params;
+    return res.json({
+        status: 'queued',
+        data: {
+            projectSlug: slug,
+            url: `${basePath}/${slug}/index.html` // Updated deployment URL
+        }
+    });
 
 
 async function initRedisSubscribe() {

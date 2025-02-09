@@ -89,6 +89,11 @@ app.post('/project', async(req, res) => {
     });
 });
 
+app.get('/:slug', async (req, res) => {
+    const { slug } = req.params;
+    return res.json({ message: `Project ${slug} is being deployed.` });
+});
+
 
 async function initRedisSubscribe() {
     console.log('Subscribed to logs....')

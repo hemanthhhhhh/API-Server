@@ -99,7 +99,7 @@ app.get('/get/:slug', (req, res) => {
     return res.redirect(deployedURL);
 });
 
-// API that returns the project URL
+// ✅ API that returns the project URL (Fixed Missing Bracket)
 app.get('/deploy/:slug', (req, res) => {
     const { slug } = req.params;
     return res.json({
@@ -109,8 +109,7 @@ app.get('/deploy/:slug', (req, res) => {
             url: `${basePath}/${slug}/index.html` // Updated deployment URL
         }
     });
-})
-
+}); // ✅ Missing bracket added here
 
 async function initRedisSubscribe() {
     console.log('Subscribed to logs....')

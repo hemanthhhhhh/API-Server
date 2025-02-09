@@ -62,7 +62,7 @@ app.post('/project', async(req, res) => {
     })
     await ecsClient.send(command);
 
-    return res.json({ status: 'queued', data: { projectSlug, url: `http://${projectSlug}.localhost:8000` } })
+    return res.json({ status: 'queued', data: { projectSlug, url: `http://${projectSlug}.https://reverse-proxy-9v2j.onrender.com` } })
 
 })
 

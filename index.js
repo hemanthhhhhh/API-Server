@@ -109,6 +109,7 @@ app.get('/deploy/:slug', (req, res) => {
             url: `${basePath}/${slug}/index.html` // Updated deployment URL
         }
     });
+})
 
 
 async function initRedisSubscribe() {

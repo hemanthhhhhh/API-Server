@@ -49,8 +49,8 @@ app.use(cors())
 app.use(express.json())
 
 app.post('/project', async(req, res) => {
-    const { gitURL, slug } = req.body
-    const projectSlug = slug || generateSlug()
+    const { gitURL, slug } = req.body;
+    const projectSlug = slug || generateSlug();
     
     const command = new RunTaskCommand({
         cluster: config.CLUSTER,
@@ -75,12 +75,20 @@ app.post('/project', async(req, res) => {
                 }
             ]
         }
-    })
+    });
 
     await ecsClient.send(command);
 
-    return res.json({ status: 'queued', data: { projectSlug, url: `https://reverse-proxy-9v2j.onrender.com/${projectSlug}` } })
-})
+    // Remove reverse proxy and return a direct API URL
+    return res.json({ 
+        status: 'queued', 
+        data: { 
+            projectSlug, 
+            url: `https://api-server-fmz7.onrender.com/${projectSlug}`  // Updated URL without reverse proxy
+        } 
+    });
+});
+
 
 async function initRedisSubscribe() {
     console.log('Subscribed to logs....')

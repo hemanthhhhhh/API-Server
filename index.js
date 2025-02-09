@@ -89,6 +89,14 @@ app.post('/project', async(req, res) => {
     });
 });
 
+app.get('/get/:slug', (req, res) => {
+    const { slug } = req.params;
+    const deployedURL = `https://${slug}.onrender.com`; // Assuming each project follows this pattern
+
+    return res.redirect(deployedURL); // Redirects to the deployed project
+});
+
+
 async function initRedisSubscribe() {
     console.log('Subscribed to logs....')
     subscriber.psubscribe('logs:*')
